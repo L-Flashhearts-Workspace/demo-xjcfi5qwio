@@ -122,6 +122,9 @@ td.rt.R3{color:#7bc98a} td.rt.R2{color:var(--gold)} td.rt.R1{color:var(--bad)}
 .drop{color:var(--ink3);font-style:italic}
 .expl{color:var(--ink2);font-size:12px;line-height:1.6;margin-top:10px}
 .expl b{color:var(--ink)}
+th.sortable{cursor:pointer;user-select:none}
+th.sortable:hover{color:var(--ink)}
+.sarrow{color:var(--accent);font-size:10px;margin-inline-start:4px}
 </style>
 </head>
 <body>
@@ -144,7 +147,8 @@ const DATA = {"weeks":["2026-10-10","2026-10-17","2026-10-24","2026-10-31","2026
 const W=DATA.weeks, NW=W.length, WK=DATA.weekly, SE=DATA.season, EVT=DATA.events;
 const BANDS=DATA.bands, WEIGHTS=DATA.weights;
 const byName={}; SE.forEach(s=>byName[s.n]=s);
-let state={lang:LANGS[0], tab:'season', week:NW-1, player:null, q:''};
+let state={lang:LANGS[0], tab:'season', week:NW-1, player:null, q:'',
+  sort:{season:{k:'rank',d:1}, week:{k:'rank',d:1}, ptab:{k:'week',d:-1}}};
 const $=id=>document.getElementById(id), t=()=>L[state.lang];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmt=n=>n==null?'—':new Intl.NumberFormat(t().nf).format(Math.round(n));
@@ -152,6 +156,30 @@ const f1=n=>n==null?'—':new Intl.NumberFormat(t().nf,{minimumFractionDigits:1,
 const fdate=s=>new Intl.DateTimeFormat(t().nf,{day:'numeric',month:'short',year:'numeric'}).format(new Date(s+'T00:00:00'));
 const fshort=s=>new Intl.DateTimeFormat(t().nf,{day:'numeric',month:'short'}).format(new Date(s+'T00:00:00'));
 const bandOf=v=>v==null?null:(v>=BANDS.R3?'R3':(v>=BANDS.R2?'R2':'R1'));
+
+const BANDORD={R1:1,R2:2,R3:3};
+function cmp(a,b,dir){
+  if(a==null&&b==null) return 0;
+  if(a==null) return 1;              // missing sorts last in BOTH directions
+  if(b==null) return -1;
+  if(typeof a==='string') return dir*a.localeCompare(b,t().nf);
+  return dir*(a-b);
+}
+function sortBy(rows,cols,st){
+  const c=cols.find(x=>x.k===st.k)||cols[0];
+  return rows.slice().sort((p,q)=>cmp(c.get(p),c.get(q),st.d));
+}
+function thead(cols,tbl){
+  const st=state.sort[tbl];
+  return '<tr>'+cols.map(c=>
+    `<th class="${c.cls||''} sortable" onclick="setSort('${tbl}','${c.k}')">${c.label()}`
+    +(st.k===c.k?`<span class="sarrow">${st.d<0?'\u25bc':'\u25b2'}</span>`:'')+'</th>').join('')+'</tr>';
+}
+function setSort(tbl,k){
+  const st=state.sort[tbl];
+  if(st.k===k) st.d=-st.d; else { st.k=k; st.d=(k==='rank'||k==='n'||k==='week')?1:-1; }
+  render();
+}
 
 function render(){
   const tr=t();
@@ -171,10 +199,19 @@ function render(){
 
 function seasonHTML(){
   const tr=t(), max=Math.max(...SE.map(s=>s.avg));
-  let h=`<div class="tblwrap"><table><thead><tr><th class="rank">${tr.rank}</th><th class="name">${tr.player}</th>
-    <th>${tr.composite}</th><th>${tr.band}</th><th>${tr.weeks}</th><th>${tr.vs}</th><th>${tr.events}</th><th>${tr.kills}</th></tr></thead><tbody>`;
-  SE.forEach((s,i)=>{
-    h+=`<tr class="${i<3?'top3':''}"><td class="rank">${s.rank}</td>
+  const cols=[
+    {k:'rank', cls:'rank', label:()=>tr.rank,      get:s=>s.rank},
+    {k:'n',    cls:'name', label:()=>tr.player,    get:s=>s.n},
+    {k:'avg',             label:()=>tr.composite,  get:s=>s.avg},
+    {k:'band',            label:()=>tr.band,       get:s=>BANDORD[s.band]},
+    {k:'weeks',           label:()=>tr.weeks,      get:s=>s.weeks},
+    {k:'vs',              label:()=>tr.vs,         get:s=>s.vsTotal},
+    {k:'ev',              label:()=>tr.events,     get:s=>s.evElig?s.evAtt/s.evElig:null},
+    {k:'kills',           label:()=>tr.kills,      get:s=>s.killsTotal},
+  ];
+  let h=`<div class="tblwrap"><table><thead>${thead(cols,'season')}</thead><tbody>`;
+  sortBy(SE,cols,state.sort.season).forEach(s=>{
+    h+=`<tr class="${s.rank<=3?'top3':''}"><td class="rank">${s.rank}</td>
       <td class="name"><span class="plink" data-p="${esc(s.n)}">${esc(s.n)}</span></td>
       <td class="bar"><i style="width:${Math.max(2,s.avg/max*100)}%"></i><b>${f1(s.avg)}</b></td>
       <td class="rt ${s.band}">${s.band}</td><td>${s.weeks}</td>
@@ -189,9 +226,18 @@ function weekHTML(){
   const evs=EVT.map((e,i)=>({...e,i})).filter(e=>e.week===state.week);
   let h=`<div class="pills">`+W.map((d,i)=>`<button class="${i===state.week?'on':''}" onclick="setWeek(${i})">${fshort(d)}</button>`).join('')+`</div>`;
   h+=`<div class="expl">${tr.weekOf} ${fdate(W[state.week])} — ${evs.map(e=>esc(e.name)+(e.pick?` (${e.pick})`:'')).join(' · ')}</div>`;
-  h+=`<div class="tblwrap"><table><thead><tr><th class="rank">${tr.rank}</th><th class="name">${tr.player}</th>
-    <th>${tr.composite}</th><th>${tr.band}</th><th>${tr.vsPct}</th><th>${tr.evPct}</th><th>${tr.killPct}</th><th>${tr.events}</th></tr></thead><tbody>`;
-  rows.forEach(r=>{
+  const cols=[
+    {k:'rank', cls:'rank', label:()=>tr.rank,      get:r=>r.rank},
+    {k:'n',    cls:'name', label:()=>tr.player,    get:r=>r.n},
+    {k:'comp',            label:()=>tr.composite,  get:r=>r.composite},
+    {k:'band',            label:()=>tr.band,       get:r=>BANDORD[r.band]},
+    {k:'vs',              label:()=>tr.vsPct,      get:r=>r.pct.vs},
+    {k:'ev',              label:()=>tr.evPct,      get:r=>r.pct.events},
+    {k:'kills',           label:()=>tr.killPct,    get:r=>r.pct.kills},
+    {k:'evn',             label:()=>tr.events,     get:r=>r.evElig?r.evAtt/r.evElig:null},
+  ];
+  h+=`<div class="tblwrap"><table><thead>${thead(cols,'week')}</thead><tbody>`;
+  sortBy(rows,cols,state.sort.week).forEach(r=>{
     h+=`<tr class="${r.rank<=3?'top3':''}"><td class="rank">${r.rank}</td>
       <td class="name"><span class="plink" data-p="${esc(r.n)}">${esc(r.n)}</span></td>
       <td class="bar"><i style="width:${Math.max(2,r.composite/max*100)}%"></i><b>${f1(r.composite)}</b></td>
@@ -255,12 +301,22 @@ function playerHTML(){
   h+=`<h2>${tr.trend}</h2>`;
   h+= pts.length<2 ? `<div class="note">${tr.noTrend}</div>` : trendSVG(pts);
   if(last!=null) h+=whyCard(WK[String(last)][state.player], last);
-  h+=`<div class="tblwrap"><table><thead><tr><th class="name">${tr.weekOf}</th><th>${tr.composite}</th><th>${tr.band}</th>
-    <th>${tr.vsPct}</th><th>${tr.evPct}</th><th>${tr.killPct}</th><th>${tr.events}</th></tr></thead><tbody>`;
-  for(let i=NW-1;i>=0;i--){ const r=WK[String(i)][state.player]; if(!r) continue;
-    h+=`<tr><td class="name">${fdate(W[i])}</td><td><b>${f1(r.composite)}</b></td><td class="rt ${r.band}">${r.band}</td>
+  const mine=[];
+  for(let i=0;i<NW;i++){ const r=WK[String(i)][state.player]; if(r) mine.push({...r, wi:i}); }
+  const cols=[
+    {k:'week', cls:'name', label:()=>tr.weekOf,    get:r=>r.wi},
+    {k:'comp',            label:()=>tr.composite,  get:r=>r.composite},
+    {k:'band',            label:()=>tr.band,       get:r=>BANDORD[r.band]},
+    {k:'vs',              label:()=>tr.vsPct,      get:r=>r.pct.vs},
+    {k:'ev',              label:()=>tr.evPct,      get:r=>r.pct.events},
+    {k:'kills',           label:()=>tr.killPct,    get:r=>r.pct.kills},
+    {k:'evn',             label:()=>tr.events,     get:r=>r.evElig?r.evAtt/r.evElig:null},
+  ];
+  h+=`<div class="tblwrap"><table><thead>${thead(cols,'ptab')}</thead><tbody>`;
+  sortBy(mine,cols,state.sort.ptab).forEach(r=>{
+    h+=`<tr><td class="name">${fdate(W[r.wi])}</td><td><b>${f1(r.composite)}</b></td><td class="rt ${r.band}">${r.band}</td>
       <td>${r.pct.vs==null?'—':f1(r.pct.vs)}</td><td>${r.pct.events==null?'—':f1(r.pct.events)}</td>
-      <td class="${r.pct.kills==null?'zero':''}">${r.pct.kills==null?'—':f1(r.pct.kills)}</td><td>${r.evAtt}/${r.evElig}</td></tr>`; }
+      <td class="${r.pct.kills==null?'zero':''}">${r.pct.kills==null?'—':f1(r.pct.kills)}</td><td>${r.evAtt}/${r.evElig}</td></tr>`; });
   return h+'</tbody></table></div>';
 }
 
