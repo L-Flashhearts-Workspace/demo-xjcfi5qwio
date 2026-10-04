@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
+<title>BeLa Alliance &mdash; Week 1 scores</title>
+<style>
+:root{
+  --bg:#12151c; --surface:#1a1e28; --surface2:#222736; --line:#2e3444;
+  --ink:#e7eaf0; --ink2:#9aa3b2; --ink3:#6b7383;
+  --accent:#5b8def; --accent-soft:rgba(91,141,239,.16);
+  --gold:#e5b84b; --warn:#e5b84b; --bad:#e06c75;
+  --radius:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,"Segoe UI",Roboto,Arial,sans-serif;padding:14px 12px 40px}
+.wrap{max-width:1100px;margin:0 auto}
+header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:6px}
+h1{font-size:19px;font-weight:700;letter-spacing:.2px}
+h1 .tag{color:var(--accent)}
+.sub{color:var(--ink2);font-size:12px;margin-bottom:12px}
+.badge{display:inline-block;background:rgba(229,184,75,.15);color:var(--gold);border:1px solid rgba(229,184,75,.4);border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700;letter-spacing:.5px;vertical-align:2px}
+.langs{display:flex;gap:6px}
+.langs button{background:var(--surface);border:1px solid var(--line);color:var(--ink2);border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer}
+.langs button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:12px 0 14px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px}
+.tile .k{color:var(--ink2);font-size:11px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+.tile .v{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums}
+.tile .v small{font-size:12px;color:var(--ink2);font-weight:400}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tabs button{background:var(--surface);border:1px solid var(--line);color:var(--ink2);border-radius:8px;padding:7px 14px;font-size:13px;cursor:pointer}
+.tabs button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--ink);font-weight:600}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.pills button{background:var(--surface);border:1px solid var(--line);color:var(--ink2);border-radius:999px;padding:4px 12px;font-size:12px;cursor:pointer}
+.pills button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+.tblwrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:14px}
+table{border-collapse:collapse;width:100%;min-width:560px}
+th,td{padding:7px 10px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;border-bottom:1px solid var(--line);font-size:13px}
+th{color:var(--ink2);font-size:11px;text-transform:uppercase;letter-spacing:.5px;position:sticky;top:0;background:var(--surface2);z-index:2}
+td.name,th.name{text-align:left;position:sticky;left:0;background:var(--surface);z-index:1;max-width:180px;overflow:hidden;text-overflow:ellipsis}
+th.name{background:var(--surface2);z-index:3}
+td.rank,th.rank{text-align:center;color:var(--ink2);position:sticky;left:0;background:var(--surface);width:38px;min-width:38px;z-index:1}
+th.rank{background:var(--surface2);z-index:3}
+td.rank + td.name, th.rank + th.name{left:38px}
+tr.dep td{color:var(--ink3)}
+tr.dep td.name{color:var(--ink3)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(91,141,239,.07)}
+tr:hover td.name, tr:hover td.rank{background:#212637}
+.bar{position:relative}
+.bar i{position:absolute;inset-inline-start:0;top:15%;height:70%;background:var(--accent-soft);border-radius:0 4px 4px 0;z-index:0}
+[dir=rtl] .bar i{border-radius:4px 0 0 4px}
+.bar b{position:relative;z-index:1;font-weight:600}
+.top3 td.rank{color:var(--gold);font-weight:700}
+.star{color:var(--gold)}
+.foot{color:var(--ink2);font-size:12px;margin-top:10px;line-height:1.6}
+.foot .star{margin-inline-end:2px}
+.zero{color:var(--ink3)}
+td.rt{font-weight:700;text-align:center}
+td.rt.R1{color:#e06c75} td.rt.R2{color:#e5b84b} td.rt.R3{color:#7bc98a}
+.rtile{display:inline-block;border-radius:999px;padding:1px 9px;font-size:12px;font-weight:700;border:1px solid;white-space:nowrap}
+.rtile.R1{color:#e06c75;border-color:rgba(224,108,117,.5);background:rgba(224,108,117,.12)}
+.rtile.R2{color:#e5b84b;border-color:rgba(229,184,75,.5);background:rgba(229,184,75,.12)}
+.rtile.R3{color:#7bc98a;border-color:rgba(123,201,138,.5);background:rgba(123,201,138,.12)}
+h2{font-size:15px;margin:16px 0 8px}
+h2 .seas{color:var(--accent);font-weight:600}
+.plink{cursor:pointer}
+.plink:hover{color:var(--accent);text-decoration:underline}
+.lseen{color:var(--ink3);font-size:11px;margin-inline-start:6px;text-transform:none;letter-spacing:0}
+.search{width:100%;max-width:340px;background:var(--surface);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:8px 12px;font-size:14px;margin-bottom:10px}
+.search::placeholder{color:var(--ink3)}
+.plist{display:flex;flex-wrap:wrap;gap:6px}
+.plist button{background:var(--surface);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer}
+.plist button:hover{border-color:var(--accent);color:var(--accent)}
+.plist button.depp{color:var(--ink3)}
+.hint{color:var(--ink2);font-size:13px;margin:8px 0}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;margin-bottom:10px}
+.fgrp{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.fgrp>label{color:var(--ink2);font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-inline-end:2px}
+.filters select,.filters input{background:var(--surface2);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:5px 9px;font-size:13px}
+.filters input{min-width:150px}
+.filters input::placeholder{color:var(--ink3)}
+.fbtn{background:var(--surface2);border:1px solid var(--line);color:var(--ink2);border-radius:999px;padding:4px 11px;font-size:12px;cursor:pointer}
+.fbtn.on{background:var(--accent-soft);border-color:var(--accent);color:var(--ink);font-weight:600}
+.fbtn.on.R1{background:rgba(224,108,117,.16);border-color:#e06c75;color:#e06c75}
+.fbtn.on.R2{background:rgba(229,184,75,.16);border-color:#e5b84b;color:#e5b84b}
+.fbtn.on.R3{background:rgba(123,201,138,.16);border-color:#7bc98a;color:#7bc98a}
+.fcount{color:var(--ink2);font-size:12px;margin-inline-start:auto}
+th.sortable{cursor:pointer;user-select:none}
+th.sortable:hover{color:var(--ink)}
+th .sarrow{color:var(--accent);font-size:10px;margin-inline-start:3px}
+td.up{color:#7bc98a} td.dn{color:#e06c75}
+.chartwrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:10px 6px 4px;margin-bottom:10px}
+.chartwrap svg{width:100%;height:auto;display:block}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink2);padding:4px 8px 8px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:5px;vertical-align:-1px}
+.dot.hollow{background:transparent;border:2px solid var(--warn)}
+.note{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:8px 12px;margin-top:8px;font-size:13px;color:var(--ink2)}
+.note b{color:var(--ink)}
+.notice{background:var(--accent-soft);border:1px solid var(--accent);border-radius:var(--radius);padding:10px 13px;margin-bottom:12px;font-size:13px;color:var(--ink)}
+.pname{font-size:18px;font-weight:700;margin:4px 0 2px}
+.pstatus{font-size:12px;margin-bottom:10px}
+.pstatus.cur{color:#7bc98a}
+.pstatus.gone{color:var(--ink3)}
+[dir=rtl] th,[dir=rtl] td{text-align:left}
+[dir=rtl] td.name,[dir=rtl] th.name{text-align:right}
+
+.intro{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 16px;margin-bottom:14px}
+.intro h4{font-size:12px;letter-spacing:.7px;text-transform:uppercase;color:var(--ink2);margin-bottom:8px}
+.intro p{font-size:13px;line-height:1.65;color:var(--ink2);margin:0 0 7px}
+.intro p:last-child{margin-bottom:0}
+.intro b{color:var(--ink)}
+.ctl{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.ctl input[type=search]{flex:1 1 180px;min-width:0}
+.tog{background:var(--surface2);border:1px solid var(--line);color:var(--ink2);
+  border-radius:999px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer}
+.tog.on{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
+table.r{width:100%;border-collapse:collapse;font-size:13px;white-space:nowrap}
+table.r th{position:sticky;top:0;background:var(--surface2);color:var(--ink2);
+  font-size:11px;letter-spacing:.5px;text-transform:uppercase;text-align:end;
+  padding:9px 8px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
+table.r th:hover{color:var(--ink)}
+table.r th.l,table.r td.l{text-align:start}
+/* names in a right-to-left script stay self-contained and cannot reorder the cell */
+table.r td.l{unicode-bidi:isolate}
+table.r td{padding:8px;border-bottom:1px solid var(--line);text-align:end;
+  font-variant-numeric:tabular-nums}
+table.r tbody tr:hover{background:var(--surface2)}
+table.r td.day{color:var(--ink3)}
+table.r td.tot{font-weight:700}
+td.b{font-weight:700;text-align:center}
+td.b.R3{color:#7bc98a} td.b.R2{color:var(--gold)} td.b.R1{color:var(--bad)}
+.was{color:var(--ink3);font-size:11px;display:block}
+.nil{color:var(--ink3)}
+.sarrow{color:var(--accent);font-size:10px;margin-inline-start:4px}
+.back{display:inline-block;margin-bottom:12px;color:var(--accent);font-size:12px;text-decoration:none}
+.back:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">&larr; Back to the demo tracker</a>
+  <header>
+    <h1><span class="tag">[BeLa]</span> Week 1 &ndash; real scores</h1>
+  </header>
+  <div class="sub">Diamond League &middot; week ending Saturday 3 October 2026 &middot; first week of the season, normal week &middot; 98 members</div>
+
+  <div class="intro">
+    <h4>What this page is</h4>
+    <p><b>What it shows.</b> Every [BeLa] member's duel points for the week ending
+       Saturday 3 October 2026: each day Monday to Friday, the Monday&ndash;Friday total, Saturday,
+       and the week total. Click any column heading to sort by it, so you can see
+       who is carrying a day and who is quiet on it.</p>
+    <p><b>Where the numbers come from.</b> Screen recordings of the in-game
+       Personal Ranking popup: the Daily Rank list for each day, and This Week's
+       Ranking for the totals. Nothing is estimated or modelled. Every figure on
+       this page was read off a game screen.</p>
+    <p><b>The one exception.</b> The game shows no Saturday list, so
+       <b>Saturday is worked out as week total minus Monday&ndash;Friday</b>. It is
+       arithmetic, not a reading.</p>
+    <p><b>Bands.</b> Set on the Monday&ndash;Friday total, because that is the part of
+       the week everyone plays: <b>R1</b> under 6M, <b>R2</b> 6M to 12M,
+       <b>R3</b> 12M and above.</p>
+  </div>
+
+  <div class="ctl">
+    <input type="search" id="q" class="search" placeholder="Search a player" autocomplete="off">
+    <button class="tog on" id="togd" type="button">Daily columns</button>
+    <span class="hint" id="count"></span>
+  </div>
+
+  <div id="view"></div>
+  <div class="foot"><p><b>Band split this week.</b> R1 9 players, R2 24, R3 64. The thresholds are a first proposal taken from this week's own spread (the Monday&ndash;Friday median is 14,487,718); say the word and they move.</p><p><b>Name changes.</b> The daily lists were recorded on 3 October and the weekly totals on 4 October. Six people renamed in between, so the weekly name is used throughout and the old one is shown underneath: -Maverick is now -Weird Mav, AgentH is now AgentH MoveYA, Butter Biscuit is now ItzBritneyBish, IRON BEAR is now OL DIRTY BEAR, IceyTea is now HeavyTea, §MORENA§ is now SPICY MORENA. Each pairing was checked by arithmetic: any other pairing makes someone's Saturday score negative.</p><p><b>noctaris</b> appears in the weekly list on zero and in no daily list, so they joined after the daily capture and have no week 1 record.</p><p><b>Names.</b> Players are shown exactly as the game renders them, in their own script, and are never translated.</p></div>
+</div>
+<script>
+const DATA = {"weekEnding":"2026-10-03","league":"Diamond League","weekNote":"first week of the season, normal week","capturedDaily":"2026-10-03","capturedWeekly":"2026-10-04","bands":{"R2":6000000,"R3":12000000},"renames":[{"from":"-Maverick","to":"-Weird Mav"},{"from":"AgentH","to":"AgentH MoveYA"},{"from":"Butter Biscuit","to":"ItzBritneyBish"},{"from":"IRON BEAR","to":"OL DIRTY BEAR"},{"from":"IceyTea","to":"HeavyTea"},{"from":"§MORENA§","to":"SPICY MORENA"}],"rows":[{"n":"JBEAST","was":null,"d":[21912898,20321610,15564783,41746971,11673438],"mf":111219700,"sat":40752800,"tot":151972500,"new":false,"rank":1},{"n":"Gracious Garlic","was":null,"d":[14292975,6956734,6201360,21468735,30100173],"mf":79019977,"sat":72135891,"tot":151155868,"new":false,"rank":2},{"n":"Ziigy","was":null,"d":[20539917,3590583,3664893,18398291,11243782],"mf":57437466,"sat":20436056,"tot":77873522,"new":false,"rank":3},{"n":"MiSsChouWanG","was":null,"d":[8779337,2830940,1767614,20276777,6615016],"mf":40269684,"sat":25965921,"tot":66235605,"new":false,"rank":4},{"n":"L Flashheart V","was":null,"d":[9171572,3289865,5458160,24424758,3434619],"mf":45778974,"sat":19059571,"tot":64838545,"new":false,"rank":5},{"n":"BuffAlo","was":null,"d":[15576280,8094094,6080607,11080277,7058201],"mf":47889459,"sat":15556516,"tot":63445975,"new":false,"rank":6},{"n":"theosfab","was":null,"d":[15216219,17085219,7891593,16208783,3610008],"mf":60011822,"sat":1461710,"tot":61473532,"new":false,"rank":7},{"n":"Kenzie 111","was":null,"d":[14092995,2875846,7159063,23287354,1489409],"mf":48904667,"sat":10931702,"tot":59836369,"new":false,"rank":8},{"n":"MaxPower901","was":null,"d":[15413801,2526132,3814337,11915890,6140806],"mf":39810966,"sat":19634922,"tot":59445888,"new":false,"rank":9},{"n":"Perksy93","was":null,"d":[9806777,2657012,5681745,16689287,7783037],"mf":42617858,"sat":3202765,"tot":45820623,"new":false,"rank":10},{"n":"AgentH MoveYA","was":"AgentH","d":[22975791,1912614,1579776,6342172,7881117],"mf":40691470,"sat":4902320,"tot":45593790,"new":false,"rank":11},{"n":"Bumdeath","was":null,"d":[6410557,3227325,3576867,12889910,4523328],"mf":30627987,"sat":13395224,"tot":44023211,"new":false,"rank":12},{"n":"ChrisHasNoShame","was":null,"d":[5499496,5560560,3286507,7666963,11685591],"mf":33699117,"sat":8950483,"tot":42649600,"new":false,"rank":13},{"n":"Mich Wolverine","was":null,"d":[11623585,7020303,4350278,11456147,4344285],"mf":38794598,"sat":1857719,"tot":40652317,"new":false,"rank":14},{"n":"Fritzelly","was":null,"d":[6083084,1522098,3785525,6044163,7579662],"mf":25014532,"sat":14974885,"tot":39989417,"new":false,"rank":15},{"n":"◦ Robert","was":null,"d":[7244544,2712680,3208494,9357860,4414271],"mf":26937849,"sat":12161087,"tot":39098936,"new":false,"rank":16},{"n":"NOODLESco","was":null,"d":[9020695,5219771,1504008,10079330,5015487],"mf":30839291,"sat":7968025,"tot":38807316,"new":false,"rank":17},{"n":"WhiteDeath","was":null,"d":[6119375,4286414,3867201,7167597,6373273],"mf":27813860,"sat":10630957,"tot":38444817,"new":false,"rank":18},{"n":"OL DIRTY BEAR","was":"IRON BEAR","d":[10431713,3881338,2251833,12241856,3445641],"mf":32252381,"sat":2842683,"tot":35095064,"new":false,"rank":19},{"n":"Meow Mixxx","was":null,"d":[7088084,2263467,1334540,15624181,3427145],"mf":29737417,"sat":5141738,"tot":34879155,"new":false,"rank":20},{"n":"SPICY MORENA","was":"§MORENA§","d":[6121368,2258452,3152615,12273378,4219451],"mf":28025264,"sat":5805228,"tot":33830492,"new":false,"rank":21},{"n":"William Rosə","was":null,"d":[5423635,3067052,3178596,8575905,6798893],"mf":27044081,"sat":6238397,"tot":33282478,"new":false,"rank":22},{"n":"Mak D R E A M","was":null,"d":[4715392,3009119,1588890,7058872,6673646],"mf":23045919,"sat":9968714,"tot":33014633,"new":false,"rank":23},{"n":"Tara567","was":null,"d":[4950332,3142826,1735661,11260732,5279649],"mf":26369200,"sat":4992009,"tot":31361209,"new":false,"rank":24},{"n":"Chanchoking","was":null,"d":[0,6047737,6562962,9972128,4561342],"mf":27144169,"sat":3647701,"tot":30791870,"new":false,"rank":25},{"n":"Kaly74","was":null,"d":[6921838,4813809,2378986,9268859,2321610],"mf":25705102,"sat":3959753,"tot":29664855,"new":false,"rank":26},{"n":"◦DREAM◦","was":null,"d":[7026225,1263069,2241383,4478825,6264412],"mf":21273914,"sat":5185063,"tot":26458977,"new":false,"rank":27},{"n":"Iceyyfrostyy","was":null,"d":[6480842,2865739,1140385,8798348,4769013],"mf":24054327,"sat":2159147,"tot":26213474,"new":false,"rank":28},{"n":"Darkvaporz","was":null,"d":[6042358,4751172,1700165,7453015,4657979],"mf":24604689,"sat":1429368,"tot":26034057,"new":false,"rank":29},{"n":"Gejuhkentel","was":null,"d":[4709259,1902155,1051128,7614724,2846121],"mf":18123387,"sat":7731250,"tot":25854637,"new":false,"rank":30},{"n":"-Weird Mav","was":"-Maverick","d":[5045884,1520176,2206267,8484141,3114450],"mf":20370918,"sat":4850613,"tot":25221531,"new":false,"rank":31},{"n":"Gubtrain","was":null,"d":[10371521,2201567,1877616,3564902,4067926],"mf":22083532,"sat":2101159,"tot":24184691,"new":false,"rank":32},{"n":"wtdafck","was":null,"d":[6397008,3037370,1661173,6159635,4188405],"mf":21443591,"sat":2173204,"tot":23616795,"new":false,"rank":33},{"n":"Big BoY","was":null,"d":[2228754,2436736,1544756,4196866,1247993],"mf":11655105,"sat":11918763,"tot":23573868,"new":false,"rank":34},{"n":"EL GeneraLI 313","was":null,"d":[3637418,1325873,1674176,4558540,2386951],"mf":13582958,"sat":8963988,"tot":22546946,"new":false,"rank":35},{"n":"¤ VEX ¤","was":null,"d":[6146116,2467005,1353087,7433591,1746291],"mf":19146090,"sat":3050080,"tot":22196170,"new":false,"rank":36},{"n":"Dixi • pizza","was":null,"d":[6002788,3000307,2274631,5570398,3801213],"mf":20649337,"sat":1195860,"tot":21845197,"new":false,"rank":37},{"n":"Im Just Ken","was":null,"d":[6529136,3436832,2607873,5571227,1336165],"mf":19481233,"sat":2297638,"tot":21778871,"new":false,"rank":38},{"n":"Survivalstar83","was":null,"d":[4804456,2075802,918157,7544164,4921128],"mf":20263707,"sat":910412,"tot":21174119,"new":false,"rank":39},{"n":"RaMbzZ","was":null,"d":[4120061,2451966,2072141,4263086,4596786],"mf":17504040,"sat":2761000,"tot":20265040,"new":false,"rank":40},{"n":"SaSoRi","was":null,"d":[4397575,2352270,2437613,6602665,3680499],"mf":19470622,"sat":466281,"tot":19936903,"new":false,"rank":41},{"n":"pizza • dixi","was":null,"d":[5218951,1527026,3115437,4354364,1726872],"mf":15942650,"sat":3230501,"tot":19173151,"new":false,"rank":42},{"n":"J BooGz","was":null,"d":[3345754,1793074,2698657,3509248,1865318],"mf":13212051,"sat":5853780,"tot":19065831,"new":false,"rank":43},{"n":"ItzBritneyBish","was":"Butter Biscuit","d":[4745367,2218638,2256543,4789358,4379886],"mf":18389792,"sat":617858,"tot":19007650,"new":false,"rank":44},{"n":"Evi666lI2","was":null,"d":[1989919,2676183,2113098,5278598,3707418],"mf":15765216,"sat":3174411,"tot":18939627,"new":false,"rank":45},{"n":"JAYDUB412","was":null,"d":[3431066,1647463,2631745,9433971,1008638],"mf":18152883,"sat":726327,"tot":18879210,"new":false,"rank":46},{"n":"Codys Johnson","was":null,"d":[3583224,1844709,3241475,6871818,1611084],"mf":17152310,"sat":438790,"tot":17591100,"new":false,"rank":47},{"n":"Just Groot","was":null,"d":[5065788,1871292,1365895,6267668,1933167],"mf":16503810,"sat":410401,"tot":16914211,"new":false,"rank":48},{"n":"Frenchie1212","was":null,"d":[5516176,1600053,2093274,4095072,1686326],"mf":14990901,"sat":1615486,"tot":16606387,"new":false,"rank":49},{"n":"LG Gillingham","was":null,"d":[4109334,3960774,1955732,3684938,1015522],"mf":14726300,"sat":1405359,"tot":16131659,"new":false,"rank":50},{"n":"Emprator","was":null,"d":[3002546,2480137,1717789,2478378,2245354],"mf":11924204,"sat":4062782,"tot":15986986,"new":false,"rank":51},{"n":"Bengalbird","was":null,"d":[3190317,2275635,844005,3649763,4132985],"mf":14092705,"sat":1785240,"tot":15877945,"new":false,"rank":52},{"n":"Kount Kornbread","was":null,"d":[4242265,1905117,1583759,4356103,2367931],"mf":14455175,"sat":1338386,"tot":15793561,"new":false,"rank":53},{"n":"ZAKI Z","was":null,"d":[3168259,3244269,1892395,1560626,4622169],"mf":14487718,"sat":1148026,"tot":15635744,"new":false,"rank":54},{"n":"ER35KAN","was":null,"d":[3825777,2105543,1133668,3231477,1369559],"mf":11666024,"sat":3502134,"tot":15168158,"new":false,"rank":55},{"n":"HeavyTea","was":"IceyTea","d":[0,0,0,6005752,3486150],"mf":9491902,"sat":5658817,"tot":15150719,"new":false,"rank":56},{"n":"Jarrey57","was":null,"d":[4130973,2662946,1798665,4466886,1268768],"mf":14328238,"sat":771731,"tot":15099969,"new":false,"rank":57},{"n":"Flashheart V Jr","was":null,"d":[5703425,1585633,699351,4248198,2373393],"mf":14610000,"sat":477654,"tot":15087654,"new":false,"rank":58},{"n":"SugarDaddyRuiz","was":null,"d":[4702616,2310317,2312208,3041094,1949587],"mf":14315822,"sat":308607,"tot":14624429,"new":false,"rank":59},{"n":"NAQII","was":null,"d":[1295277,1629823,2531745,2892854,5836085],"mf":14185784,"sat":365037,"tot":14550821,"new":false,"rank":60},{"n":"Vampirea12","was":null,"d":[3000907,1984235,1564928,3343021,3816790],"mf":13709881,"sat":839545,"tot":14549426,"new":false,"rank":61},{"n":"Mermaid Man","was":null,"d":[3047651,1522145,1111400,7074202,1102261],"mf":13857659,"sat":370183,"tot":14227842,"new":false,"rank":62},{"n":"JenO","was":null,"d":[4553300,3354266,1958493,2429778,949200],"mf":13245037,"sat":981996,"tot":14227033,"new":false,"rank":63},{"n":"ShaggyBat","was":null,"d":[6019559,2573256,2205870,2243185,866451],"mf":13908321,"sat":271238,"tot":14179559,"new":false,"rank":64},{"n":"black charo 2","was":null,"d":[6433889,1700553,683950,3476557,1137302],"mf":13432251,"sat":545385,"tot":13977636,"new":false,"rank":65},{"n":"LG s FARM","was":null,"d":[3158047,1904436,2047370,4486685,1642077],"mf":13238615,"sat":309701,"tot":13548316,"new":false,"rank":66},{"n":"PositronTSA","was":null,"d":[3087857,1333154,2271761,4868185,1172623],"mf":12733580,"sat":479719,"tot":13213299,"new":false,"rank":67},{"n":"ParamedicBallz","was":null,"d":[4414995,1618097,1536784,2202110,2205524],"mf":11977510,"sat":1109620,"tot":13087130,"new":false,"rank":68},{"n":"Mayhem 36","was":null,"d":[4402350,2025871,1098477,3152414,1828057],"mf":12507169,"sat":371570,"tot":12878739,"new":false,"rank":69},{"n":"scorpion 12","was":null,"d":[1562239,1241219,730055,1160630,1656017],"mf":6350160,"sat":6265670,"tot":12615830,"new":false,"rank":70},{"n":"Vever","was":null,"d":[2318943,1835263,1882329,4119478,858727],"mf":11014740,"sat":1420857,"tot":12435597,"new":false,"rank":71},{"n":"VelvetSniper","was":null,"d":[2598091,2094631,854467,4267634,1600472],"mf":11415295,"sat":990318,"tot":12405613,"new":false,"rank":72},{"n":"DelC0607","was":null,"d":[3133836,1256478,1190657,3312049,2844961],"mf":11737981,"sat":533479,"tot":12271460,"new":false,"rank":73},{"n":"ΧΛΜΛ","was":null,"d":[1864287,2640648,2216921,3108252,626748],"mf":10456856,"sat":731264,"tot":11188120,"new":false,"rank":74},{"n":"TAP0UTNINJA","was":null,"d":[1319442,169922,1459908,6317426,1114274],"mf":10380972,"sat":699007,"tot":11079979,"new":false,"rank":75},{"n":"majode","was":null,"d":[3111479,1090484,1040153,2235611,457813],"mf":7935540,"sat":2776019,"tot":10711559,"new":false,"rank":76},{"n":"july 91","was":null,"d":[2631816,1712234,1451084,3907604,675805],"mf":10378543,"sat":325116,"tot":10703659,"new":false,"rank":77},{"n":"Krav Mags","was":null,"d":[3140695,850170,896777,3976862,1277649],"mf":10142153,"sat":467656,"tot":10609809,"new":false,"rank":78},{"n":"Ivon","was":null,"d":[2313520,1342233,1409878,2247594,1506117],"mf":8819342,"sat":1459542,"tot":10278884,"new":false,"rank":79},{"n":"Alpha Ranger75","was":null,"d":[965019,1102598,639304,4504896,1124577],"mf":8336394,"sat":1300971,"tot":9637365,"new":false,"rank":80},{"n":"VØID NAZAROV","was":null,"d":[2886083,350206,483949,2346619,2467232],"mf":8534089,"sat":764844,"tot":9298933,"new":false,"rank":81},{"n":"Creepychris","was":null,"d":[2280352,906880,1702977,1858982,1482764],"mf":8231955,"sat":369367,"tot":8601322,"new":false,"rank":82},{"n":"ShantanuBoss","was":null,"d":[3035827,1560799,0,0,2235264],"mf":6831890,"sat":1736852,"tot":8568742,"new":false,"rank":83},{"n":"Megzzzz","was":null,"d":[1897571,1541453,1397277,2304641,433600],"mf":7574542,"sat":318253,"tot":7892795,"new":false,"rank":84},{"n":"ADNAN QURESHI","was":null,"d":[1904837,124201,975708,2047241,453549],"mf":5505536,"sat":2111594,"tot":7617130,"new":false,"rank":85},{"n":"VA Badass","was":null,"d":[2006236,1471956,599220,1218443,734951],"mf":6030806,"sat":1403642,"tot":7434448,"new":false,"rank":86},{"n":"ADI-HP","was":null,"d":[1507213,1233780,842764,3033752,483548],"mf":7101057,"sat":147460,"tot":7248517,"new":false,"rank":87},{"n":"LegendaryStJ","was":null,"d":[1744245,1786735,1378993,0,1441905],"mf":6351878,"sat":772978,"tot":7124856,"new":false,"rank":88},{"n":"beemish","was":null,"d":[1727623,1033725,1876544,730187,1163806],"mf":6531885,"sat":178963,"tot":6710848,"new":false,"rank":89},{"n":"Samurai Hoann","was":null,"d":[1323405,1338580,931187,1297240,996543],"mf":5886955,"sat":527968,"tot":6414923,"new":false,"rank":90},{"n":"Dirk Renegade","was":null,"d":[1939812,1259092,638840,1544917,37739],"mf":5420400,"sat":984390,"tot":6404790,"new":false,"rank":91},{"n":"Skidgette","was":null,"d":[3406969,600000,952445,0,12438],"mf":4971852,"sat":287008,"tot":5258860,"new":false,"rank":92},{"n":"Aashuafzu","was":null,"d":[1204149,517836,653359,1094481,385325],"mf":3855150,"sat":392686,"tot":4247836,"new":false,"rank":93},{"n":"Walking Funeral","was":null,"d":[643585,354498,183272,403000,857154],"mf":2441509,"sat":1780521,"tot":4222030,"new":false,"rank":94},{"n":"Tk islam","was":null,"d":[520662,600317,567654,791182,644740],"mf":3124555,"sat":711598,"tot":3836153,"new":false,"rank":95},{"n":"Nikita Warrior","was":null,"d":[440058,349329,402021,50400,449322],"mf":1691130,"sat":1337855,"tot":3028985,"new":false,"rank":96},{"n":"جودة","was":null,"d":[1212734,782627,182684,332372,372832],"mf":2883249,"sat":135104,"tot":3018353,"new":false,"rank":97},{"n":"noctaris","was":null,"d":[null,null,null,null,null],"mf":null,"sat":null,"tot":0,"new":true,"rank":98}]};
+
+const R=DATA.rows;
+const nf=new Intl.NumberFormat('en-GB');
+const fmt=v=>v==null?'<span class=nil>—</span>':nf.format(v);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const DAYS=['Mon','Tue','Wed','Thu','Fri'];
+const bandOf=v=>v==null?null:(v>=DATA.bands.R3?'R3':(v>=DATA.bands.R2?'R2':'R1'));
+let state={q:'',days:true,sort:{k:'rank',d:1}};
+
+// missing values sort last whichever way the column is pointing, so a player
+// with no score never crowds out the people you are actually ranking
+function cmp(a,b,dir){
+  if(a==null&&b==null) return 0;
+  if(a==null) return 1;
+  if(b==null) return -1;
+  if(typeof a==='string') return dir*a.localeCompare(b,'en-GB');
+  return dir*(a-b);
+}
+const KEY={rank:r=>r.rank, n:r=>r.n, mf:r=>r.mf, sat:r=>r.sat, tot:r=>r.tot,
+           band:r=>({R1:1,R2:2,R3:3})[bandOf(r.mf)]||null};
+DAYS.forEach((d,i)=>KEY['d'+i]=r=>r.d[i]);
+
+function sortBy(k){
+  const s=state.sort;
+  // first click on a number column shows the biggest first; names start A-Z
+  s.d = s.k===k ? -s.d : ((k==='n'||k==='rank')?1:-1);
+  s.k=k; render();
+}
+function arrow(k){return state.sort.k===k?'<span class=sarrow>'+(state.sort.d===1?'▲':'▼')+'</span>':'';}
+
+function render(){
+  const q=state.q.trim().toLowerCase();
+  let rows=R.filter(r=>!q||r.n.toLowerCase().includes(q)||(r.was||'').toLowerCase().includes(q));
+  const g=KEY[state.sort.k];
+  rows=rows.slice().sort((a,b)=>cmp(g(a),g(b),state.sort.d)||a.rank-b.rank);
+
+  const dh=state.days?DAYS.map(function(d,i){
+    return '<th data-k="d'+i+'">'+d+arrow('d'+i)+'</th>';}).join(''):'';
+  let h='<div class=tblwrap><table class=r><thead><tr>'
+    +'<th data-k="rank">#'+arrow('rank')+'</th>'
+    +'<th class=l data-k="n">Player'+arrow('n')+'</th>'
+    +dh
+    +'<th data-k="mf">Mon–Fri'+arrow('mf')+'</th>'
+    +'<th data-k="sat">Sat'+arrow('sat')+'</th>'
+    +'<th data-k="tot">Week'+arrow('tot')+'</th>'
+    +'<th data-k="band">Band'+arrow('band')+'</th>'
+    +'</tr></thead><tbody>';
+  for(const r of rows){
+    const b=bandOf(r.mf);
+    const dd=state.days?r.d.map(function(v){return '<td class=day>'+fmt(v)+'</td>';}).join(''):'';
+    h+='<tr><td>'+r.rank+'</td><td class=l>'+esc(r.n)
+      +(r.was?'<span class=was>was '+esc(r.was)+'</span>':'')
+      +(r.new?'<span class=was>joined after the daily capture</span>':'')
+      +'</td>'+dd+'<td>'+fmt(r.mf)+'</td><td>'+fmt(r.sat)+'</td>'
+      +'<td class=tot>'+fmt(r.tot)+'</td><td class="b '+(b||'')+'">'+(b||'—')+'</td></tr>';
+  }
+  h+='</tbody></table></div>';
+  if(!rows.length) h='<div class=note>No player matches that search.</div>';
+  document.getElementById('view').innerHTML=h;
+  document.getElementById('count').textContent=rows.length+' of '+R.length+' players';
+  document.getElementById('togd').className='tog'+(state.days?' on':'');
+}
+
+document.addEventListener('click',function(e){
+  const th=e.target.closest('th[data-k]'); if(th){sortBy(th.dataset.k);return;}
+  if(e.target.closest('#togd')){state.days=!state.days;render();}
+});
+document.getElementById('q').addEventListener('input',function(e){state.q=e.target.value;render();});
+render();
+
+</script>
+</body>
+</html>
